@@ -168,7 +168,52 @@ class MyApp
         this.mySnapshot.EnableVideoDesableImage(false);
         this.myScreen.EnableVideoDesableImage("Switch to video", false);
         this.swithToVideo = true;
+        this.ProcessImage();
       }
+    }
+
+    ProcessImage(): void
+    {
+      this.myScreen.SetResultText("Processing...");
+      this.mySnapshot.Get(blob => this.MakeRequest(blob));
+    }
+
+    private MakeRequest(blob)
+    {
+      let req = { url: "recognize",
+                    beforeSend: function(xhrObj)
+                    {
+                        xhrObj.setRequestHeader("Content-Type","application/octet-stream");
+                    },
+                    type: "POST",
+                    data: blob,
+                    processData: false
+                };
+      $.ajax(req).done( data => this.ProcessResponse(data))
+                 .fail( () => this.InformAboutError());
+    }
+
+    private InformAboutError()
+    {
+      this.myScreen.SetResultText("An error while processing occured, please try again or contact a developer...");
+      alert("An unknown and unexpected error occured.");
+    }
+
+    private ProcessResponse(data): void
+    {
+      if(data.error)
+        this.ShowError(data);
+      else
+        this.ShowResult(data);
+    }
+
+    private ShowError(data: any)
+    {
+      this.myScreen.SetResultText("An error occured. Please contact a developer. " + JSON.stringify(data));
+    }
+
+    private ShowResult(data: any)
+    {
     }
 }
 
