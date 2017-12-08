@@ -4,7 +4,9 @@
   "description": "sucht nach Rezepte",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsc && concurrently \"tsc -w\" \"lite-server\" ",
+    "lite": "lite-server",
+    "tsc": "tsc"
   },
   "repository": {
     "type": "git",
@@ -18,5 +20,12 @@
   "bugs": {
     "url": "https://github.com/WladimirW/CookItYourself/issues"
   },
-  "homepage": "https://github.com/WladimirW/CookItYourself#readme"
+  "homepage": "https://github.com/WladimirW/CookItYourself#readme",
+  "devDependencies": {
+    "@types/core-js": "^0.9.34",
+    "@types/express": "^4.0.33",
+    "@types/node": "^6.0.45",
+    "@types/jquery": "^3.2.9",
+    "typescript": "^2.0.3"
+  }
 }
