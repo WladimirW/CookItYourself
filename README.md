@@ -2,6 +2,7 @@
 
 ## How to run
 
-On Mac w/ Chrome: 
-1. `/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --disable-web-security --user-data-dir`
-2. Open index.html in Chrome
+1. `cd server`
+2. `npm install`
+3. `node bin/www`
+4. Open `index.html` (in `client` directory) in Browser
