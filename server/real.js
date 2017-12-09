@@ -33,7 +33,9 @@ function getStore(zipCode) {
         .then(response => {
             cartId = response.guid;
             //console.log(response);
-            cart = "https://api-fab02ext.efood.real-pp.de/api/v2/real/users/anonymous/carts/" + cartId + "/entries/";
+           cart = "https://api-fab02ext.efood.real-pp.de/api/v2/real/users/anonymous/carts/" + cartId + "/entries/";
+           // cart = "https://api-fab02ext.efood.real-pp.de/api/v2/real/users/current/carts/current/entries/";
+
             return {cartid:cartId,storeName:storeName};
         })
 
@@ -62,6 +64,9 @@ function addToCart(ingredient,quantity,storeId){
                 return request({
                     uri: cart,
                     method: "POST",
+                   // headers: {
+                   //     'Authorization' : 'bearer 7afc9b8c-694f-4511-852e-27c064efb8e5'
+                   // },
                     body: {product: {code: response.products[0].code}, quantity: quantity},
                     json: true
                 })
