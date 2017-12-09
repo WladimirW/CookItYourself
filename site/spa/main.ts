@@ -180,7 +180,7 @@ class MyApp
 
     private MakeRequest(blob)
     {
-      let req = { url: "http://localhost:3000/recipeNames",
+      let req = { url: "recipeNames2",
                     beforeSend: function(xhrObj)
                     {
                         xhrObj.setRequestHeader("Content-Type","application/octet-stream");
@@ -214,6 +214,7 @@ class MyApp
 
     private ShowResult(data: any)
     {
+      this.myScreen.SetResultText(JSON.stringify(data));
     }
 }
 
