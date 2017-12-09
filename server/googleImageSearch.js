@@ -12,23 +12,28 @@ function getLabels(fileName) {
 
             const labels = results[0].labelAnnotations;
 
-            labels.forEach((label) => res.push(label.description));
+            labels.forEach(function(label){
+                if(label.description !== "dish"
+                    && label.description !== "food"){
+                    res.push(label.description)
+                }
+            });
 
             //console.log(res);
             res = res.slice(0,3);
             console.log(res);
             return res;
-    })
-    .catch((err) => {
+        })
+        .catch((err) => {
             console.error('ERROR:', err);
-    });
+        });
 
     return x;
 
 };
 
 
-var test = getLabels("/Users/lidia/Downloads/IMG_6387.JPG");
-console.log(test);
+// var test = getLabels("https://www.browneyedbaker.com/wp-content/uploads/2016/06/blueberry-muffins-23-600.jpg");
+// console.log(test);
 
 module.exports = getLabels;
