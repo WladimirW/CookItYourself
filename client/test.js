@@ -79,7 +79,7 @@ $(document).ready(function () {
       handleImageUrl($.urlParam("imageUrl"));
     }
 
-    $("#imageUrlSubmit").click(handleImageUrl);
+    $("#imageUrlSubmit").click(() => handleImageUrl());
     $.ajax({
         url: "http://localhost:3000/topoftheday",
         beforeSend: function (xhrObj) {
