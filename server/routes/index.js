@@ -50,7 +50,7 @@ router.post("/recipeNames2", rawParser, (req, res, next) => {
 router.post("/recipeNames", (req, res, next) => {
   let labelResults;
 
-  getLabels("../../client/" + req.body.imageUrl)
+  getLabels(_.startsWith(req.body.imageUrl, "http") ? req.body.imageUrl : "../../client/" + req.body.imageUrl)
     .then(results => {
       labelResults = results || [];
 
