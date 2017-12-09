@@ -7,6 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="polyfill.js"></script>
     <script src="test.js"></script>
+    <script src="main.js"></script>
   </head>
   <body>
     <!-- Navigation -->
@@ -167,6 +168,10 @@
       </body>
     </html>
 
+  <video id="video" style="display:none;" id="video" autoplay></video>
+  <img id="snapshot" style="display:none;" id="image" />
+  <br><button id="capture" onclick="snapshot()" disabled>Capture image from camera</button>
+  <br><div id="result">Application is loading...</div>
 
     <!-- Slide Show -->
     <div id="imageUrlContainer">
