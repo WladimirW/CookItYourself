@@ -1,34 +1,29 @@
 // Imports the Google Cloud client library
-const Vision = require('@google-cloud/vision');
+const Vision = require("@google-cloud/vision"),
+      _      = require("lodash");
 
 function getLabels(fileName) {
 
-    // Creates a client
-    const vision = new Vision.ImageAnnotatorClient();
-    var res = [];
+  // Creates a client
+  const vision = new Vision.ImageAnnotatorClient();
+  var res = [];
 
-    var x = vision.labelDetection(fileName)
-        .then((results) => {
+  var x = vision.labelDetection(fileName)
+    .then((results) => {
+      let res = _(results[0].labelAnnotations).map("description")
+        .filter(desc => !_.includes(["dish", "food", "cuisine"], desc))
+        .value();
 
-            const labels = results[0].labelAnnotations;
+      //console.log(res);
+      res = res.slice(0, 3);
+      console.log(res);
+      return res;
+    })
+    .catch((err) => {
+      console.error("ERROR:", err);
+    });
 
-            labels.forEach(function(label){
-                if(label.description !== "dish"
-                    && label.description !== "food"){
-                    res.push(label.description)
-                }
-            });
-
-            //console.log(res);
-            res = res.slice(0,3);
-            console.log(res);
-            return res;
-        })
-        .catch((err) => {
-            console.error('ERROR:', err);
-        });
-
-    return x;
+  return x;
 
 };
 

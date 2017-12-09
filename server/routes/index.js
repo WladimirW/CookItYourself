@@ -14,8 +14,16 @@ router.get("/recipeData", function (req, res, next) {
 });
 
 router.post("/recipeNames", (req, res, next) => {
+  let labelResults;
+
   getLabels(req.body.imageUrl)
-    .then(results => getRecipeFromLabel(results[0]))
+    .then(results => {
+      labelResults = results;
+
+      return getRecipeFromLabel(labelResults[0]);
+    })
+    .then(result => result || getRecipeFromLabel(labelResults[1]))
+    .then(result => result || getRecipeFromLabel(labelResults[2]))
     .then(result => res.json(result))
     .catch(err => console.log(err));
 });
@@ -43,9 +51,9 @@ router.get("/topoftheday", (req, res, next) => {
     .then(results => {
       const imageIds = results.map(result => result.recipeImages[0].id);
 
-      const urls = imageIds.map((imageId, index) => "https://api.chefkoch.de/v2/recipes/" + ids[index] +  "/images/" + imageId + "/fit-960x720");
-      res.json({ids : ids,urls : urls});
-    })
+      const urls = imageIds.map((imageId, index) => "https://api.chefkoch.de/v2/recipes/" + ids[index] + "/images/" + imageId + "/fit-960x720");
+      res.json({ ids: ids, urls: urls });
+    });
 });
 
 function getRecipeFromLabel(label) {
@@ -63,10 +71,10 @@ function getRecipeFromLabel(label) {
     json: true
   })
     .then(response => {
-      const recipeId = response.results[0].recipe.id;
+      const recipeId = _.get(response, "results[0].recipe.id");
 
-      return getRecipeFromId(recipeId)
-    })
+      return recipeId ? getRecipeFromId(recipeId) : null;
+    });
 }
 
 function getRecipeFromId(recipeId) {
