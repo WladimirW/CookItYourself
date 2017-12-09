@@ -20,6 +20,34 @@ router.post("/recipeNames", (req, res, next) => {
     .catch(err => console.log(err));
 });
 
+router.get("/recipeFromId", (req, res, next) => {
+  getRecipeFromId(req.query.recipeId)
+    .then(result => res.json(result))
+    .catch(err => console.log(err));
+});
+
+router.get("/topoftheday", (req, res, next) => {
+  let ids;
+
+  request({ uri: "https://api.chefkoch.de/v2/recipes/oftheday", qs: { limit: 3 }, json: true })
+    .then(results => {
+      ids = results.results.map(result => result.recipe.id);
+
+      return Promise.all(ids.map(id =>
+        request({
+          uri: "https://api.chefkoch.de/v2/aggregations/recipe/screen/" + id,
+          json: true
+        })
+      ));
+    })
+    .then(results => {
+      const imageIds = results.map(result => result.recipeImages[0].id);
+
+      const urls = imageIds.map((imageId, index) => "https://api.chefkoch.de/v2/recipes/" + ids[index] +  "/images/" + imageId + "/fit-960x720");
+      res.json({ids : ids,urls : urls});
+    })
+});
+
 function getRecipeFromLabel(label) {
   return request({
     uri: "https://api.chefkoch.de/v2/recipes",
@@ -37,11 +65,15 @@ function getRecipeFromLabel(label) {
     .then(response => {
       const recipeId = response.results[0].recipe.id;
 
-      return request({
-        uri: "https://api.chefkoch.de/v2/aggregations/recipe/screen/" + recipeId,
-        json: true
-      });
+      return getRecipeFromId(recipeId)
     })
+}
+
+function getRecipeFromId(recipeId) {
+  return request({
+    uri: "https://api.chefkoch.de/v2/aggregations/recipe/screen/" + recipeId,
+    json: true
+  })
     .then(response => {
       const recipe = response.recipe;
 
@@ -60,6 +92,7 @@ function getRecipeFromLabel(label) {
         ingredientGroups: processedIngredientGroups
       };
     });
+
 }
 
 module.exports = router;

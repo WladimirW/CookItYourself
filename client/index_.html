@@ -26,7 +26,7 @@
           header, footer {
             padding: 1em;
             color: white;
-            background-color: lightseagreen;
+            background-color: #4F634F;
             clear: left;
             text-align: center;
           }
@@ -86,18 +86,20 @@
           }
 
           #imageUrlContainer {
-            padding-top: 235px;
-            background-image: url("kaesespaetzle.jpg");
+            padding-top: 350px;
+            background-image: url("defaultBackground.jpg");
             background-repeat: no-repeat;
             background-size: cover;
-            height: 500px;
+            height: 400px;
           }
 
           #imageUrlInput {
+            padding: 0 10px;
             margin: 10px auto;
-            width: 500px;
-            height: 30px;
+            width: 700px;
+            height: 50px;
             display: block;
+            font-size: 30px;
           }
 
           #imageUrlSubmit {
@@ -107,6 +109,8 @@
             padding-top: 15px;
             width: 200px;
             font-size: 25px;
+              color: white;
+              background-color: #4F634F;
           }
 
           #recipeContainer {
@@ -117,17 +121,26 @@
               background-color: aliceblue;
               color: #121212;
           }
+
+          .topOfTheDayImage {
+            width: 33.3%;
+            height: 350px;
+          }
+
+          #recipesOfTheDayContainer {
+            margin: 0 0 -5px 0; /* HACK, pls don't remove */
+          }
         </style>
       </head>
       <body>
 
-        <div class="topnav" id="myTopnav">
+        <!--<div class="topnav" id="myTopnav">
           <a href="#Startseite" class="active">Startseite</a>
           <a href="#Neuigkeiten">Neuigkeiten</a>
           <a href="#Kontakt">Kontakt</a>
           <a href="#Impressum">Impressum</a>
           <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
-        </div>
+        </div>-->
 
 
         <script>
@@ -148,7 +161,7 @@
     <!-- Slide Show -->
     <div id="imageUrlContainer">
         <div id="imageUrl">
-            <input type="text" id="imageUrlInput"/>
+            <input type="text" placeholder="Enter or paste an image URL…" id="imageUrlInput"/>
             <button id="imageUrlSubmit">Get recipe</button>
         </div>
     </div>
@@ -160,10 +173,9 @@
       <h1>Rezepte des Tages</h1>
     </header>
 
-      <img src="https://static.chefkoch-cdn.de/ck.de/rezepte/81/81914/764351-960x720-omas-beste-frikadellen.jpg" alt="Random Name" style="width:33%">
-      <img src="https://static.chefkoch-cdn.de/ck.de/rezepte/23/23046/807208-960x720-grossmutters-reibekuchen.jpg" alt="Random Name" style="width:33%">
-      <img src="https://static.chefkoch-cdn.de/ck.de/rezepte/110/110729/668435-960x720-schneller-flammkuchen.jpg" alt="Random Name" style="width:33%">
+    <div id="recipesOfTheDayContainer">
 
+    </div>
 
     <script>
       // Automatic Slideshow - change image every 3 seconds
