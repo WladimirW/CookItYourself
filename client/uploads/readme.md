@@ -1,1 +1,0 @@
-Uploaded images will be stored here.
