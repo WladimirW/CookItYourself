@@ -180,7 +180,7 @@ class MyApp
 
     private MakeRequest(blob)
     {
-      let req = { url: "recognize",
+      let req = { url: "http://localhost:3000/recipeNames",
                     beforeSend: function(xhrObj)
                     {
                         xhrObj.setRequestHeader("Content-Type","application/octet-stream");
