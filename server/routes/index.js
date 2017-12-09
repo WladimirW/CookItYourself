@@ -13,6 +13,33 @@ router.get("/recipeData", function (req, res, next) {
     .then(res.json);
 });
 
+router.post("/recipeNames2", (req, res, next) => {
+var result = {
+  "responses": [
+    {
+      "labelAnnotations": [
+        {
+          "mid": "/m/02y6n",
+          "description": "french fries",
+          "score": 0.98349416
+        },
+        {
+          "mid": "/m/02q08p0",
+          "description": "dish",
+          "score": 0.9484921
+        },
+        {
+          "mid": "/m/07l8p5",
+          "description": "side dish",
+          "score": 0.87812835
+        }
+      ]
+    }
+  ]
+};
+res.json(result);
+});
+
 router.post("/recipeNames", (req, res, next) => {
   let labelResults;
 
