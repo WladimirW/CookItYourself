@@ -34,7 +34,8 @@ router.post("/recipeNames2", rawParser, (req, res, next) => {
   const request = { source: { filename: fileName } };
   let labelResults;
 
-  getLabels(request)
+  //getLabels(request)
+  getLabels(fileName)
     .then(results => {
       labelResults = results;
 
