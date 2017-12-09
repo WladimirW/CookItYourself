@@ -4,6 +4,7 @@ const express   = require("express"),
       router    = express.Router(),
       _         = require("lodash"),
       request   = require("request-promise"),
+      bodyParser = require("body-parser"),
       getLabels = require("../googleImageSearch");
 
 router.get("/recipeData", function (req, res, next) {
@@ -13,7 +14,23 @@ router.get("/recipeData", function (req, res, next) {
     .then(res.json);
 });
 
-router.post("/recipeNames2", (req, res, next) => {
+function replaceAll(target, search, replacement)
+{
+    return target.replace(new RegExp(search, 'g'), replacement);
+}
+
+let rawParser = bodyParser.raw({limit: 500000});
+router.post("/recipeNames2", rawParser, (req, res, next) => {
+var path = require("path");
+var fs = require("fs");
+const uploadDir = path.join(__dirname, '/../..', '/uploads/');
+fs.writeFile(uploadDir + replaceAll(new Date().toISOString(),":",".") + ".img.jpg", req.body, "binary", function(err) 
+{
+if(err)
+  console.log(JSON.stringify(err));
+console.log("ok");
+});
+
 var result = {
   "responses": [
     {
