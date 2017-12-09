@@ -39,9 +39,6 @@ function getStore(zipCode) {
 
 
 }
-    getStore(40463).then(response => addToCart("Cola", "3", response.storeName))
-        .then(response => console.log(response));
-
 
 
 
@@ -58,19 +55,22 @@ function addToCart(ingredient,quantity,storeId){
         json: true
     })
         .then(response => {
-            //console.log(response.products[0].code);
-            //console.log(cart);
-            return request({
-                uri: cart,
-                method: "POST",
-                body: {product:{ code: response.products[0].code }, quantity: quantity },
-                json: true
-            })
-                .then(response => {
-                    return cart;
-                });
+
+            if(response.products) {
+                //console.log(response.products[0].code);
+                //console.log(cart);
+                return request({
+                    uri: cart,
+                    method: "POST",
+                    body: {product: {code: response.products[0].code}, quantity: quantity},
+                    json: true
+                })
+                    .then(response => {
+                        return cart;
+                    });
+            } else return Promise.resolve();
 
         });
 }
 
-    module.exports = getStore;
+    module.exports = {getStore:getStore,addToCart:addToCart};

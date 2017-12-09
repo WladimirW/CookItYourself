@@ -4,7 +4,8 @@ const express   = require("express"),
       router    = express.Router(),
       _         = require("lodash"),
       request   = require("request-promise"),
-      getLabels = require("../googleImageSearch");
+      getLabels = require("../googleImageSearch"),
+    real = require("../real");
 
 router.get("/recipeData", function (req, res, next) {
   const recipeName = req.query.recipeName;
@@ -26,6 +27,22 @@ router.post("/recipeNames", (req, res, next) => {
     .then(result => result || getRecipeFromLabel(labelResults[2]))
     .then(result => res.json(result))
     .catch(err => console.log(err));
+});
+
+router.post("/order",(req,res,next)=>{
+    real.getStore("40210").then(response=> {
+        const storeName = response.storeName
+        const ingredients = req.body.ingredients;
+        var promises = [];
+
+        ingredients.forEach(function(i){
+            if(i.amount) {
+                promises.push(real.addToCart(i.name, 1, storeName));
+            }
+        });
+        Promise.all(promises).then(responses => res.json({url:_.compact(responses)[0]}));
+    });
+
 });
 
 router.get("/recipeFromId", (req, res, next) => {
