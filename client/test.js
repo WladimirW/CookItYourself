@@ -2,67 +2,84 @@
 
 let ingredients;
 
-$(document).ready(function () {
-    $("#imageUrlSubmit").click(function () {
-        let imageUrl = $("#imageUrlInput").val();
-        $("#imageUrlContainer").css("background-image", "url(\"" + imageUrl + "\")");
+$.urlParam = function(name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results==null){
+        return null;
+    }
+    else{
+        return decodeURI(results[1]) || 0;
+    }
+};
 
-        console.log("in handler");
-        console.log(imageUrl);
+function handleImageUrl(url) {
+    let imageUrl = url || $("#imageUrlInput").val();
+    $("#imageUrlContainer").css("background-image", "url(\"" + imageUrl + "\")");
 
-        let req = {
-            url: "http://localhost:3000/recipeNames",
-            beforeSend: function (xhrObj) {
-                xhrObj.setRequestHeader("Content-Type", "application/json");
-            },
-            type: "POST",
-            data: JSON.stringify({imageUrl: imageUrl}),
-            dataType: "json",
-            processData: true
-        };
-        $.ajax(req).done(data => {
+    console.log("in handler");
+    console.log(imageUrl);
 
-            ingredients = [];
+    let req = {
+        url: "http://localhost:3000/recipeNames",
+        beforeSend: function (xhrObj) {
+            xhrObj.setRequestHeader("Content-Type", "application/json");
+        },
+        type: "POST",
+        data: JSON.stringify({imageUrl: imageUrl}),
+        dataType: "json",
+        processData: true
+    };
+    $.ajax(req).done(data => {
 
-            $("#recipeContainer").css("display", "block");
-            $("#recipeContainer").empty();
+        ingredients = [];
 
-            $("#recipeContainer").append("<h2>" + data.title + "</h2>");
-            data.ingredientGroups.forEach(ingredientGroup => {
-                let ingredientString = "";
-                ingredientGroup.ingredients.forEach(ingredient => {
-                    ingredients.push(ingredient);
+        $("#recipeContainer").css("display", "block");
+        $("#recipeContainer").empty();
 
-                    ingredientString += "<tr><td>" + (ingredient.amount ? ingredient.amount + " " : "") + ingredient.unit + " " + ingredient.name + "</td></tr>";
-                });
+        $("#recipeContainer").append("<h2>" + data.title + "</h2>");
+        data.ingredientGroups.forEach(ingredientGroup => {
+            let ingredientString = "";
+            ingredientGroup.ingredients.forEach(ingredient => {
+                ingredients.push(ingredient);
 
-                $("#recipeContainer").append("<table>" + ingredientString + "</table>");
+                ingredientString += "<tr><td>" + (ingredient.amount ? ingredient.amount + " " : "") + ingredient.unit + " " + ingredient.name + "</td></tr>";
             });
 
-            $("#recipeContainer").append("<p>" + data.instructions + "</p>");
-            $("#recipeContainer").append("<p> <button id='realButton'> Bei Real bestellen </button></p>");
-
-            $("#realButton").click(function () {
-
-                let req = {
-                    url: "http://localhost:3000/order",
-                    beforeSend: function (xhrObj) {
-                        xhrObj.setRequestHeader("Content-Type", "application/json");
-                    },
-                    type: "POST",
-                    data: JSON.stringify({ingredients: ingredients}),
-                    dataType: "json",
-                    processData: true
-                };
-                $.ajax(req).done(data => {
-                window.open(data.url,"_blank");
-
-                })
-
-                    .fail(error => console.log(error));
-            })
+            $("#recipeContainer").append("<table>" + ingredientString + "</table>");
         });
+
+        $("#recipeContainer").append("<p>" + data.instructions + "</p>");
+        $("#recipeContainer").append("<p> <button id='realButton'> Bei Real bestellen </button></p>");
+
+        $("#realButton").click(function () {
+
+            let req = {
+                url: "http://localhost:3000/order",
+                beforeSend: function (xhrObj) {
+                    xhrObj.setRequestHeader("Content-Type", "application/json");
+                },
+                type: "POST",
+                data: JSON.stringify({ingredients: ingredients}),
+                dataType: "json",
+                processData: true
+            };
+            $.ajax(req).done(data => {
+                window.open(data.url, "_blank");
+
+            })
+
+                .fail(error => console.log(error));
+        })
     });
+}
+
+$(document).ready(function () {
+
+    if($.urlParam("imageUrl")) {
+      handleImageUrl($.urlParam("imageUrl"));
+    }
+
+    $("#imageUrlSubmit").click(handleImageUrl);
     $.ajax({
         url: "http://localhost:3000/topoftheday",
         beforeSend: function (xhrObj) {

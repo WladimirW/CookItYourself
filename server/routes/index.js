@@ -24,7 +24,7 @@ function replaceAll(target, search, replacement)
 
 let rawParser = bodyParser.raw({limit: 500000});
 router.post("/recipeNames2", rawParser, (req, res, next) => {
-  const uploadDir = path.join(__dirname, '/../..', '/uploads/');
+  const uploadDir = path.join(__dirname, '/../../client', '/uploads/');
   const fileName = uploadDir + replaceAll(new Date().toISOString(),":",".") + ".img.jpg";
   fs.writeFile(fileName, req.body, "binary", function(err) 
   {
@@ -32,11 +32,10 @@ router.post("/recipeNames2", rawParser, (req, res, next) => {
       console.log(JSON.stringify(err));
     console.log("ok");
   });
-  const request = { source: { filename: fileName } };
   let labelResults;
+  res.json({ imageUrl: fileName });
 
-  //getLabels(request)
-  getLabels(fileName)
+  /*getLabels(fileName)
     .then(results => {
       labelResults = results;
 
@@ -45,7 +44,7 @@ router.post("/recipeNames2", rawParser, (req, res, next) => {
     .then(result => result || getRecipeFromLabel(labelResults[1]))
     .then(result => result || getRecipeFromLabel(labelResults[2]))
     .then(result => res.json(result))
-    .catch(err => console.log(err));
+    .catch(err => console.log(err));*/
 });
 
 router.post("/recipeNames", (req, res, next) => {

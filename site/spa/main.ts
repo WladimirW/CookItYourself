@@ -180,7 +180,7 @@ class MyApp
 
     private MakeRequest(blob)
     {
-      let req = { url: "recipeNames2",
+      let req = { url: "http://localhost:3000/recipeNames2",
                     beforeSend: function(xhrObj)
                     {
                         xhrObj.setRequestHeader("Content-Type","application/octet-stream");
@@ -203,8 +203,10 @@ class MyApp
     {
       if(data.error)
         this.ShowError(data);
-      else
-        this.ShowResult(data);
+      else {
+          this.ShowResult(data);
+          window.location.replace("index_.html?imageUrl=" + data.imageUrl);
+      }
     }
 
     private ShowError(data: any)

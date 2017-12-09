@@ -7,6 +7,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="polyfill.js"></script>
     <script src="test.js"></script>
+
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
   <body>
     <!-- Navigation -->
@@ -96,9 +98,9 @@
           #imageUrlInput {
             padding: 0 10px;
             margin: 10px auto;
-            width: 700px;
+            width: 90%;
             height: 50px;
-            display: block;
+            display: inline;
             font-size: 30px;
           }
 
@@ -139,6 +141,22 @@
             font-size: 25px;
             color: white;
             background-color: #4F634F;
+
+          }
+
+          #cameraButton{
+
+            display: inline;
+            height:50px;
+            /*margin-top:30px;*/
+
+
+          }
+
+          .block{
+            display: block;
+            width: 800px;
+            height: 100px;
           }
         </style>
       </head>
@@ -171,7 +189,10 @@
     <!-- Slide Show -->
     <div id="imageUrlContainer">
         <div id="imageUrl">
+          <div class="block">
             <input type="text" placeholder="Enter or paste an image URL…" id="imageUrlInput"/>
+            <a href="index.html" id="cameraButton"><i class="material-icons" style="font-size:50px; padding-top:30px; color:black;">add_a_photo</i> </a>
+          </div>
             <button id="imageUrlSubmit">Get recipe</button>
         </div>
     </div>
