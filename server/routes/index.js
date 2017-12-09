@@ -55,6 +55,7 @@ function getRecipeFromLabel(label) {
 
 
       return {
+        title: recipe.title,
         instructions: recipe.instructions,
         ingredientGroups: processedIngredientGroups
       };

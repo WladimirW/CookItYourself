@@ -3,12 +3,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/w3css/3/w3.css">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="polyfill.js"></script>
+    <script src="test.js"></script>
+  </head>
   <body>
     <!-- Navigation -->
     <html>
       <head>
         <style>
-          body {margin:0;}
+          body {
+              margin:0;
+              font-family: "Arial";
+              font-size: 20px;
+          }
 
           .topnav {
             overflow: hidden;
@@ -67,6 +76,47 @@
             }
 
           }
+
+          #imageUrl {
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+            height: 30px;
+            display: block;
+          }
+
+          #imageUrlContainer {
+            padding-top: 235px;
+            background-image: url("kaesespaetzle.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 500px;
+          }
+
+          #imageUrlInput {
+            margin: 10px auto;
+            width: 500px;
+            height: 30px;
+            display: block;
+          }
+
+          #imageUrlSubmit {
+            display: block;
+            margin: 10px auto;
+            padding-bottom: 15px;
+            padding-top: 15px;
+            width: 200px;
+            font-size: 25px;
+          }
+
+          #recipeContainer {
+              display: none;
+              margin: 30px 100px;
+              padding: 30px 50px;
+              border-radius: 10px;
+              background-color: aliceblue;
+              color: #121212;
+          }
         </style>
       </head>
       <body>
@@ -96,26 +146,25 @@
 
 
     <!-- Slide Show -->
-    <section>
-      <img class="mySlides" src="https://static.chefkoch-cdn.de/ck.de/rezepte/106/106212/668460-960x720-schnelle-kaesespaetzle.jpg"
-           style="width:100%">
-      <img class="mySlides" src="https://static.chefkoch-cdn.de/ck.de/rezepte/47/47566/215338-960x720-omas-lebkuchen-ein-sehr-altes-rezept.jpg">
-      <img class="mySlides" src="https://static.chefkoch-cdn.de/ck.de/rezepte/83/83760/552892-960x720-kartoffelgratin.jpg"
-           style="width:100%">
-    </section>
-    <!-- Bild in Googlesuche -->
+    <div id="imageUrlContainer">
+        <div id="imageUrl">
+            <input type="text" id="imageUrlInput"/>
+            <button id="imageUrlSubmit">Get recipe</button>
+        </div>
+    </div>
 
-    
+    <div id="recipeContainer">
+    </div>
 
     <header>
       <h1>Rezepte des Tages</h1>
     </header>
-    
-      <img src="https://static.chefkoch-cdn.de/ck.de/rezepte/81/81914/764351-960x720-omas-beste-frikadellen.jpg" alt="Random Name" style="width:30%"> 
-      <img src="https://static.chefkoch-cdn.de/ck.de/rezepte/23/23046/807208-960x720-grossmutters-reibekuchen.jpg" alt="Random Name" style="width:30%">
-      <img src="https://static.chefkoch-cdn.de/ck.de/rezepte/110/110729/668435-960x720-schneller-flammkuchen.jpg" alt="Random Name" style="width:30%">
-  
- 
+
+      <img src="https://static.chefkoch-cdn.de/ck.de/rezepte/81/81914/764351-960x720-omas-beste-frikadellen.jpg" alt="Random Name" style="width:33%">
+      <img src="https://static.chefkoch-cdn.de/ck.de/rezepte/23/23046/807208-960x720-grossmutters-reibekuchen.jpg" alt="Random Name" style="width:33%">
+      <img src="https://static.chefkoch-cdn.de/ck.de/rezepte/110/110729/668435-960x720-schneller-flammkuchen.jpg" alt="Random Name" style="width:33%">
+
+
     <script>
       // Automatic Slideshow - change image every 3 seconds
       var myIndex = 0;
@@ -143,6 +192,6 @@
         }
       }
     </script>
-    <footer>Copyright &copy; W3Schools.com</footer>
+    <footer>Copyright &copy; Teem007</footer>
   </body>
 </html>
