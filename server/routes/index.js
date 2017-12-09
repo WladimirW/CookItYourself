@@ -1,21 +1,34 @@
 "use strict";
 
-const express = require("express"),
-      router  = express.Router(),
-      _       = require("lodash"),
-      request = require("request-promise");
+const express   = require("express"),
+      router    = express.Router(),
+      _         = require("lodash"),
+      request   = require("request-promise"),
+      getLabels = require("../googleImageSearch");
 
 router.get("/recipeData", function (req, res, next) {
   const recipeName = req.query.recipeName;
 
-  request({
+  getRecipeFromLabel(recipeName)
+    .then(res.json);
+});
+
+router.post("/recipeNames", (req, res, next) => {
+  getLabels(req.body.imageUrl)
+    .then(results => getRecipeFromLabel(results[0]))
+    .then(result => res.json(result))
+    .catch(err => console.log(err));
+});
+
+function getRecipeFromLabel(label) {
+  return request({
     uri: "https://api.chefkoch.de/v2/recipes",
     qs: {
       descendCategories: 1,
       order: 0,
       minimumRating: 3,
       maximumTime: 0,
-      query: recipeName,
+      query: label,
       limit: 25,
       orderBy: 2
     },
@@ -41,21 +54,11 @@ router.get("/recipeData", function (req, res, next) {
       });
 
 
-      res.json({
+      return {
         instructions: recipe.instructions,
         ingredientGroups: processedIngredientGroups
-      });
-
-      //res.json(recipe);
+      };
     });
-});
-
-router.post("/recipeNames", (req, res, next) => {
-  console.log(req);
-
-  res.json({
-    "recipeNames": ["Kürbissuppe", "Knoblauchbrot"]
-  });
-});
+}
 
 module.exports = router;

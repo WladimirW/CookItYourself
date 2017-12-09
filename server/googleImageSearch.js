@@ -28,7 +28,7 @@ function getLabels(fileName) {
 };
 
 
-var test = getLabels("/Users/lidia/Downloads/IMG_6387.JPG");
-console.log(test);
+//var test = getLabels("/Users/lidia/Downloads/IMG_6387.JPG");
+//console.log(test);
 
 module.exports = getLabels;
