@@ -5,6 +5,8 @@ const express   = require("express"),
       _         = require("lodash"),
       request   = require("request-promise"),
       bodyParser = require("body-parser"),
+      path = require("path"),
+      fs = require("fs"),
       getLabels = require("../googleImageSearch");
 
 router.get("/recipeData", function (req, res, next) {
@@ -21,40 +23,27 @@ function replaceAll(target, search, replacement)
 
 let rawParser = bodyParser.raw({limit: 500000});
 router.post("/recipeNames2", rawParser, (req, res, next) => {
-var path = require("path");
-var fs = require("fs");
-const uploadDir = path.join(__dirname, '/../..', '/uploads/');
-fs.writeFile(uploadDir + replaceAll(new Date().toISOString(),":",".") + ".img.jpg", req.body, "binary", function(err) 
-{
-if(err)
-  console.log(JSON.stringify(err));
-console.log("ok");
-});
+  const uploadDir = path.join(__dirname, '/../..', '/uploads/');
+  const fileName = uploadDir + replaceAll(new Date().toISOString(),":",".") + ".img.jpg";
+  fs.writeFile(fileName, req.body, "binary", function(err) 
+  {
+    if(err)
+      console.log(JSON.stringify(err));
+    console.log("ok");
+  });
+  const request = { source: { filename: fileName } };
+  let labelResults;
 
-var result = {
-  "responses": [
-    {
-      "labelAnnotations": [
-        {
-          "mid": "/m/02y6n",
-          "description": "french fries",
-          "score": 0.98349416
-        },
-        {
-          "mid": "/m/02q08p0",
-          "description": "dish",
-          "score": 0.9484921
-        },
-        {
-          "mid": "/m/07l8p5",
-          "description": "side dish",
-          "score": 0.87812835
-        }
-      ]
-    }
-  ]
-};
-res.json(result);
+  getLabels(request)
+    .then(results => {
+      labelResults = results;
+
+      return getRecipeFromLabel(labelResults[0]);
+    })
+    .then(result => result || getRecipeFromLabel(labelResults[1]))
+    .then(result => result || getRecipeFromLabel(labelResults[2]))
+    .then(result => res.json(result))
+    .catch(err => console.log(err));
 });
 
 router.post("/recipeNames", (req, res, next) => {
