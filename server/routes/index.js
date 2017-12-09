@@ -52,7 +52,7 @@ router.post("/recipeNames", (req, res, next) => {
 
   getLabels(req.body.imageUrl)
     .then(results => {
-      labelResults = results;
+      labelResults = results || [];
 
       return getRecipeFromLabel(labelResults[0]);
     })
