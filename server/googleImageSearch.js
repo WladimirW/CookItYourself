@@ -12,12 +12,7 @@ function getLabels(fileName) {
 
             const labels = results[0].labelAnnotations;
 
-            labels.forEach(function(label){
-                if(label.description !== "dish"
-                    && label.description !== "food"){
-                    res.push(label.description)
-                }
-            });
+            labels.forEach((label) => res.push(label.description));
 
             //console.log(res);
             res = res.slice(0,3);
@@ -33,7 +28,7 @@ function getLabels(fileName) {
 };
 
 
-var test = getLabels("https://www.browneyedbaker.com/wp-content/uploads/2016/06/blueberry-muffins-23-600.jpg");
+var test = getLabels("/Users/lidia/Downloads/IMG_6387.JPG");
 console.log(test);
 
 module.exports = getLabels;
